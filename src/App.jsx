@@ -1,5 +1,6 @@
 import List from "./components/listar/List"
 import Input from "./components/contador/Input"
+import ListadoFetch from "./components/fetch/ListadoFetch"
 function App(){
   //--------
     // console.log("LLAME AL COMPONENTE")
@@ -16,6 +17,7 @@ function App(){
       <h1>hola! { nombre }</h1>
       <List className="bg-danger" items={ listadoUsuarios } titulo={ "Mi Titulo" } />
       <Input></Input>
+      <ListadoFetch />
     </div>
   )
 }
