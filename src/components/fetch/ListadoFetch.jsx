@@ -6,36 +6,40 @@ const ListadoFetch = () => {
     const [ listado, setListado ] = useState([])
     const [ page, setPage ] = useState(0)
 
-    const getDatos = async (uri) => {
-        try {
-            const pokemons = await fetch(uri)
-            const jsonPokemons = await pokemons.json()
-            console.log(jsonPokemons)
-            setListado(jsonPokemons.results)
-        } catch (error) {
-            console.error(error)
-        }
-    }
+    // const getDatos = async (uri) => {
+    //     try {
+    //         const pokemons = await fetch(uri)
+    //         const jsonPokemons = await pokemons.json()
+    //         console.log(jsonPokemons)
+    //         setListado(jsonPokemons.results)
+    //     } catch (error) {
+    //         console.error(error)
+    //     }
+    // }
     // console.log(listado)
 
     useEffect( () => {
         //componentDiDmount
-        if( listado.length == 0 || listado.length == undefined ){
-            getDatos("https://pokeapi.co/api/v2/pokemon")
-        }else{
-            //componentDidUpdate
-            const offset = page * 20
-            getDatos(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=20`)
-        }
-        return () => {
-            console.log("unmount")
-        }
-    }, [page] )
+        // if( listado.length == 0 || listado.length == undefined ){
+        //     getDatos("https://pokeapi.co/api/v2/pokemon")
+        // }else{
+        //     //componentDidUpdate
+        //     const offset = page * 20
+        //     getDatos(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=20`)
+        // }
+        // return () => {
+        //     console.log("unmount")
+        // }
+    // }, [page] )
+    fetch("http://localhost:2024/api/productos")
+        .then( (respuesta) =>  respuesta.json() )
+        .then( (datos) => console.log(datos) )
+    }, [] )
 
     return (
         <ul>
-            {/* <button onClick={getDatos} >hacer Fetch</button> */}
-            <button onClick={ () => setPage( page + 1 ) } >Siguiente pagina { page }</button>
+            {/* <button onClick={getDatos} >hacer Fetch</button> 
+            <button onClick={ () => setPage( page + 1 ) } >Siguiente pagina { page }</button>*/}
             {
                 listado.map( (pokemon, indice) => {
                     return <li key={indice} >{pokemon.name}</li>
