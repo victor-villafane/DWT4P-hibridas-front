@@ -12,6 +12,7 @@ import Login from './components/login/Login.jsx';
 import Registro from './components/login/Registro.jsx';
 import ListadoLibros from './components/libros/ListadoLibros.jsx';
 import LibroDetalle from './components/libros/LibroDetalle.jsx';
+import Logout from './components/login/Logout.jsx';
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "/libro/:id",
         element: <LibroDetalle />
+      },
+      {
+        path: "/logout",
+        element: <Logout />
       }
     ]
   }
