@@ -1,19 +1,29 @@
-// 1.
-// export default function Hola(){
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-// } 
-// 2.
-// const Hola = () => {
+const Home = () => {
 
-// }
-// export default Hola
+    const navigate = useNavigate()
+  
+    useEffect(  () => {
+        const resp =  fetch('http://localhost:2024/api/productos',{
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "auth-token":localStorage.getItem("token")
+            }
+        })
+        .then( async(resp) => {
+                const datos = await resp.json()
+                console.log(datos)
+        } )
+        .catch( (err) => navigate("/login") )
+      
+    } )
 
-import React from 'react'
-
-const Hola = () => {
-  return (
-    <div>Hola</div>
+    return (
+    <div>Home</div>
   )
 }
 
-export default Hola
+export default Home
