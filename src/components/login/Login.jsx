@@ -2,6 +2,7 @@ import React from 'react'
 import { useState,useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useLogin, useSession } from '../contexts/session.context'
+import { login as loginService } from '../../services/auth.service'
 const Login = () => {
 
   const [email, setEmail] = useState('')
@@ -20,20 +21,13 @@ const Login = () => {
 
   const handleSubmit = async(e) => {
     e.preventDefault()
-    const resp = await  fetch('http://localhost:2024/api/usuario/login', { 
-      method: 'POST',
-      body: JSON.stringify({ email: email, password: password }),
-      headers: {
-        'Content-Type': 'application/json',
-      }
-     })
-     
-     if(resp.ok){
-      const data = await resp.json()
-      login(data.token)
-     }
-
-}
+    console.log(email, password)
+    loginService(email, password)
+      .then( usuario => {
+        login( usuario.token )
+        })
+      .catch( (error) => console.log(error) )
+  }
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
