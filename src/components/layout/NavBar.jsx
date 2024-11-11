@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { useToken } from '../contexts/session.context';
 
 const Navbar = () => {
-    const token = localStorage.getItem("token")
+    const token = useToken()
     return (
         <nav className="navbar navbar-expand-md navbar-dark bg-dark">
             <div className="container">

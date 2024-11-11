@@ -1,11 +1,13 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState,useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-
+import { useLogin, useSession } from '../contexts/session.context'
 const Login = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const login = useLogin()
+
   const navigate = useNavigate()
 
   const handleEmail = (e) => {
@@ -28,10 +30,7 @@ const Login = () => {
      
      if(resp.ok){
       const data = await resp.json()
-      console.log(data.token)
-      localStorage.setItem('token', data.token)
-      
-      navigate("/")
+      login(data.token)
      }
 
 }

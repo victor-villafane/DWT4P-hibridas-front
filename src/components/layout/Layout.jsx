@@ -1,15 +1,16 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-import Navbar from './NavBar'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Navbar from "./NavBar";
+import { SessionProvider } from "../contexts/session.context";
 
 const Layout = () => {
   return (
-    <>
-        <Navbar />
-            <Outlet />
-        <footer>footer</footer>
-    </>
-  )
-}
+    <SessionProvider>
+      <Navbar />
+      <Outlet />
+      <footer>footer</footer>
+    </SessionProvider>
+  );
+};
 
-export default Layout
+export default Layout;

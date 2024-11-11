@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { createContext, StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -13,6 +13,7 @@ import Registro from './components/login/Registro.jsx';
 import ListadoLibros from './components/libros/ListadoLibros.jsx';
 import LibroDetalle from './components/libros/LibroDetalle.jsx';
 import Logout from './components/login/Logout.jsx';
+import ProtectedRoute from "./components/layout/ProtectedRoute.jsx"
 
 const router = createBrowserRouter([
   {
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />
+        element: <ProtectedRoute><Home /></ProtectedRoute>
       },
       {
         path: "/login",
@@ -46,8 +47,9 @@ const router = createBrowserRouter([
   }
 ])
 
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+      <RouterProvider router={router} />
   </StrictMode>,
 )
