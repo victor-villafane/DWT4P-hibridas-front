@@ -1,24 +1,17 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { getProductos } from '../services/productos.service'
 
 const Home = () => {
 
     const navigate = useNavigate()
   
     useEffect(  () => {
-        const resp =  fetch('http://localhost:2024/api/productos',{
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "auth-token":localStorage.getItem("token")
-            }
-        })
-        .then( async(resp) => {
-                const datos = await resp.json()
+        getProductos()
+            .then( datos => {
                 console.log(datos)
-        } )
-        .catch( (err) => navigate("/login") )
-      
+            } )
+            .catch( (err) => navigate("/login") )
     } )
 
     return (

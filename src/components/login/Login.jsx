@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState,useContext } from 'react'
+import { useState,useContext, useCallback, useMemo, Profiler } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useLogin, useSession } from '../contexts/session.context'
 import { login as loginService } from '../../services/auth.service'
@@ -11,15 +11,15 @@ const Login = () => {
 
   const navigate = useNavigate()
 
-  const handleEmail = (e) => {
+  const handleEmail = useCallback((e) => {  //se guardan la funcion y no necesitan volver a cargarla entre los render
     setEmail(e.target.value)
-  }
+  }, [])
 
-  const handlePassword = (e) => {
+  const handlePassword = useCallback((e) => {
     setPassword(e.target.value)
-  }
+  }, [])
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = useCallback(async(e) => {
     e.preventDefault()
     console.log(email, password)
     loginService(email, password)
@@ -27,9 +27,23 @@ const Login = () => {
         login( usuario.token )
         })
       .catch( (error) => console.log(error) )
-  }
+  }, [email, password, loginService, login])
 
+
+  const calculoComplejo = (num) => {   //esto lleva mucho tiempo
+    for (let i = 0; i < 1000000000; i++) {}
+    return num * 2
+  }
+  // calculoComplejo(10)
+  // const valorGuardado = useMemo( () => calculoComplejo(3), [] ) //
+
+  // console.log(valorGuardado)
+
+  const onRenderCallback = (id, phase, actualDuration) => {
+    console.log(`Renderizado ${id} en fase ${phase} y tomó ${actualDuration}ms`);
+  }
   return (
+    <Profiler id="Login" onRender={onRenderCallback} >
     <div className="d-flex justify-content-center align-items-center vh-100">
     <form 
       onSubmit={handleSubmit} 
@@ -65,7 +79,7 @@ const Login = () => {
       </div>
     </form>
   </div>
-
+  </Profiler>
   )
 }
 

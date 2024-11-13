@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { registro } from '../../services/auth.service'
 
 const Registro = () => {
     const [nombre, setNombre] = React.useState('')
@@ -17,19 +18,13 @@ const Registro = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const resp = await fetch('http://localhost:2024/api/usuarios', {
-            method: 'POST',
-            body: JSON.stringify({ email: nombre, password: password }),
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-        if (resp.ok) {
-            navigate("/login")
-        } else {
-            const respuesta = await resp.json();
-            setError(respuesta.mensaje)
+        try {
+            await registro(nombre, password)
+            navigate("/")
+        } catch (error) {
+            setError(error.mensaje)
         }
+
 
         //  const data = await resp.json()
         //  console.log(data.token);
@@ -37,10 +32,10 @@ const Registro = () => {
     }
 
     return (
-        <div className="d-flex justify-content-center align-items-center vh-100">               
-        <form onSubmit={handleSubmit}
-          className="p-4 shadow-lg rounded" 
-          style={{ width: '350px' }}
+        <div className="d-flex justify-content-center align-items-center vh-100">
+            <form onSubmit={handleSubmit}
+                className="p-4 shadow-lg rounded"
+                style={{ width: '350px' }}
             >
                 <h3 className="text-center mb-4 text-primary">Registrar Usuario</h3>
                 <div className="mb-3">
@@ -69,6 +64,9 @@ const Registro = () => {
                 <div className="text-center mt-3">
                     <Link to="/login" className="text-decoration-none text-secondary">Ya tenes usuario?</Link>
                 </div>
+                {
+                    error && <p className='text-danger' >{error}</p>
+                }
             </form>
         </div>
 

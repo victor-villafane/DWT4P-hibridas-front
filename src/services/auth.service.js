@@ -7,3 +7,11 @@ export async function login(email, password) {
     body: { email: email, password: password },
   });
 }
+
+export async function registro(email, password){
+  return call({
+    uri: "usuarios",
+    method: "POST",
+    body: { email: email, password: password }
+  })
+}

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useState, useCallback } from "react"
 import { useNavigate } from "react-router-dom"
 const SessionContext = createContext()    //Creo un context
 
@@ -26,17 +26,17 @@ function SessionProvider({children}){
 
     const navigate = useNavigate()
 
-    const onLogin = (jwt) => {
+    const onLogin = useCallback((jwt) => {
         localStorage.setItem("token", jwt)
         setToken(jwt)
         navigate("/")
-    }
+    }, [navigate] )
 
-    const onLogout = () => {
+    const onLogout = useCallback(() => {
         localStorage.clear()
         setToken(null)
         navigate("/login")
-    }
+    }, [navigate])
 
     return (
         <SessionContext.Provider value={{ token, onLogin, onLogout }}>
