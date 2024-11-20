@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getProductos } from '../services/productos.service'
+import Chat from './chat/Chat'
 
 const Home = () => {
 
@@ -15,7 +16,9 @@ const Home = () => {
     } )
 
     return (
-    <div>Home</div>
+    <div>
+        <Chat></Chat>
+    </div>
   )
 }
 
